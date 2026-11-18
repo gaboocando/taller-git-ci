@@ -68,59 +68,59 @@ Completen esta sección después de revisar cada hallazgo. No cambien el informe
 
 ### Hallazgo 1
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** confirmado.
+- **Evidencia:** En la versión inicial, `src/inventario.js:8` insertaba el nombre en el texto SQL. `ejecutar` solo devuelve datos, así que la evidencia corresponde a cómo se construía la consulta.
+- **Corrección:** Separé el texto SQL del valor mediante un marcador `?` y un arreglo de parámetros.
+- **Prueba de regresión:** `separa el nombre del texto de la consulta`.
 
 ### Hallazgo 2
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** confirmado.
+- **Evidencia:** La línea 3 de la versión inicial asignaba un literal a `API_TOKEN`.
+- **Corrección:** Sustituí el literal por `process.env.API_TOKEN`.
+- **Prueba de regresión:** `buscarProducto lee el token del entorno` (`test/token.test.js`).
 
 ### Hallazgo 3
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** confirmado.
+- **Evidencia:** En la versión inicial, `vender` restaba la cantidad al stock sin exigir un entero positivo. Restar un número negativo aumenta el stock.
+- **Corrección:** Validé que la cantidad sea un entero positivo y apliqué comparación estricta al identificador.
+- **Prueba de regresión:** `rechaza cantidades inválidas sin modificar el stock`.
 
 ### Hallazgo 4
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** confirmado.
+- **Evidencia:** En la versión inicial, con un inventario vacío, `promedioStock` dividía la suma cero entre cero.
+- **Corrección:** Devuelvo `0` explícitamente si el inventario está vacío.
+- **Prueba de regresión:** `el promedio vacío es cero`.
 
 ### Hallazgo 5
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** confirmado.
+- **Evidencia:** En la versión inicial, `i <= lote.length` permitía leer la posición `lote.length`, que queda fuera del arreglo.
+- **Corrección:** Cambié la condición a `i < lote.length`.
+- **Prueba de regresión:** `procesa el lote completo y admite un lote vacío`.
 
 ### Hallazgo 6
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** descartado.
+- **Evidencia:** La función `vender` gestiona existencias. El cálculo del importe sería un requisito adicional al alcance del taller.
+- **Corrección:** No aplica.
+- **Prueba de regresión:** No aplica.
 
 ### Hallazgo 7
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** descartado.
+- **Evidencia:** La lectura síncrona existe en `cargarConfiguracion`, pero el código revisado no la invoca desde `vender` y el taller no muestra un impacto en el flujo de ventas.
+- **Corrección:** No aplica.
+- **Prueba de regresión:** No aplica.
 
 ### Hallazgo 8
 
-- **Veredicto:** confirmado / descartado
-- **Evidencia:**
-- **Corrección:**
-- **Prueba de regresión:**
+- **Veredicto:** descartado.
+- **Evidencia:** Cambiar `for` por `map` es una decisión de estilo. El defecto en el límite del ciclo se registró y corrigió en el hallazgo 5.
+- **Corrección:** No aplica.
+- **Prueba de regresión:** No aplica.
 
 ## Declaración de uso de IA
 
@@ -129,8 +129,8 @@ Completen esta sección después de revisar cada hallazgo. No cambien el informe
 - [ ] Agregué una prueba de regresión por cada corrección.
 - [ ] Descarté los falsos positivos con una razón.
 
-**Qué hizo la IA:** generó este informe con ocho hallazgos.
+**Qué hizo la IA:** el informe inicial generó ocho hipótesis. Codex revisó el código base, aplicó las correcciones, ejecutó las pruebas locales y documentó los resultados en esta sección.
 
-**Qué verifiqué yo:**
+**Qué verifiqué yo:** pendiente de la revisión personal de Gabriel antes de marcar las casillas.
 
-**Qué corregí yo:**
+**Qué corregí yo:** las correcciones del taller se aplicaron con ayuda de Codex. Las casillas quedan pendientes de confirmación personal.
